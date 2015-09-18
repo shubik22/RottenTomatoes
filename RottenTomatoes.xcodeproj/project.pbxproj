@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		225DDA291BABDD44002C0A06 /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225DDA281BABDD44002C0A06 /* MovieDetailsViewController.swift */; };
 		22B151211BABBADD007D6BA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B151201BABBADD007D6BA4 /* AppDelegate.swift */; };
 		22B151261BABBADD007D6BA4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22B151241BABBADD007D6BA4 /* Main.storyboard */; };
 		22B151281BABBADD007D6BA4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22B151271BABBADD007D6BA4 /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		225DDA231BABD91E002C0A06 /* RottenTomatoes-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RottenTomatoes-Bridging-Header.h"; sourceTree = "<group>"; };
+		225DDA281BABDD44002C0A06 /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
 		22B1511D1BABBADD007D6BA4 /* RottenTomatoes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RottenTomatoes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22B151201BABBADD007D6BA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		22B151251BABBADD007D6BA4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				22B151321BABBB1D007D6BA4 /* MoviesViewController.swift */,
+				225DDA281BABDD44002C0A06 /* MovieDetailsViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -215,6 +218,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				225DDA291BABDD44002C0A06 /* MovieDetailsViewController.swift in Sources */,
 				22B151211BABBADD007D6BA4 /* AppDelegate.swift in Sources */,
 				22B151331BABBB1D007D6BA4 /* MoviesViewController.swift in Sources */,
 				22B1513C1BABCD32007D6BA4 /* MovieCell.swift in Sources */,
