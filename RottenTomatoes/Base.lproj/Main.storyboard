@@ -28,7 +28,7 @@
                                                     <rect key="frame" x="84" y="35" width="228" height="66.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="5LP-Is-Hw3">
@@ -70,9 +70,26 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="AYb-PA-EFI">
+                                <rect key="frame" x="0.0" y="525" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem image="iconmonstr-video-5-icon-128" width="143" style="plain" id="Afq-8J-81o">
+                                        <connections>
+                                            <action selector="boxOfficeButtonClicked:" destination="BYZ-38-t0r" id="5gn-PU-R7U"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem image="iconmonstr-disc-14-icon-24" width="154" style="plain" id="Xwj-AV-gJY">
+                                        <connections>
+                                            <action selector="dvdButtonClicked:" destination="BYZ-38-t0r" id="1eR-ck-b3I"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="bAT-AP-SID"/>
                     <navigationItem key="navigationItem" title="Movies" id="lk8-KY-mdg"/>
                     <connections>
                         <outlet property="errorView" destination="pjo-sm-b2w" id="5O8-iN-lyg"/>
@@ -81,7 +98,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="643" y="366"/>
+            <point key="canvasLocation" x="915" y="372"/>
         </scene>
         <!--Movie Details View Controller-->
         <scene sceneID="QyY-5r-f0S">
@@ -128,7 +145,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="50a-Y4-aQd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1053" y="366"/>
+            <point key="canvasLocation" x="1585" y="366"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="J7u-3S-Esy">
@@ -141,15 +158,17 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="auW-VD-KfY"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="deg-HO-Y7h"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4OI-v6-Ncp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="181" y="366"/>
+            <point key="canvasLocation" x="375" y="372"/>
         </scene>
     </scenes>
     <resources>
-        <image name="alert" width="128" height="128"/>
+        <image name="alert" width="48" height="48"/>
+        <image name="iconmonstr-disc-14-icon-24" width="24" height="24"/>
+        <image name="iconmonstr-video-5-icon-128" width="24" height="24"/>
     </resources>
 </document>

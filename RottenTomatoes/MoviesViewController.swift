@@ -10,22 +10,44 @@ import UIKit
 
 class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
+    enum MovieGroup : String {
+        case BoxOffice = "https://gist.githubusercontent.com/timothy1ee/d1778ca5b944ed974db0/raw/489d812c7ceeec0ac15ab77bf7c47849f2d1eb2b/gistfile1.json"
+        case TopDvds = "https://gist.githubusercontent.com/timothy1ee/e41513a57049e21bc6cf/raw/b490e79be2d21818f28614ec933d5d8f467f0a66/gistfile1.json"
+    }
+    
     var movies: [NSDictionary]?
     var refreshControl: UIRefreshControl!
+    var currentMovieGroup: MovieGroup?
     
+    @IBAction func boxOfficeButtonClicked(sender: UIBarButtonItem) {
+        currentMovieGroup = MovieGroup.BoxOffice
+        setTitle()
+        loadMovies()
+    }
+
+    @IBAction func dvdButtonClicked(sender: AnyObject) {
+        currentMovieGroup = MovieGroup.TopDvds
+        setTitle()
+        loadMovies()
+    }
+
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var errorView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        JTProgressHUD.show()
+        if (currentMovieGroup == nil) {
+            currentMovieGroup = MovieGroup.BoxOffice
+        }
+
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
         tableView.insertSubview(refreshControl, atIndex: 0)
         tableView.dataSource = self
         tableView.delegate = self
-        
+
+        setTitle()
         loadMovies()
     }
     
@@ -57,7 +79,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
 
     func loadMovies() {
         JTProgressHUD.show()
-        let url = NSURL(string: "https://gist.githubusercontent.com/timothy1ee/d1778ca5b944ed974db0/raw/489d812c7ceeec0ac15ab77bf7c47849f2d1eb2b/gistfile1.json")
+        
+        let url = NSURL(string: currentMovieGroup!.rawValue)
         let task =  NSURLSession.sharedSession().dataTaskWithRequest(
             NSURLRequest(URL: url!),
             completionHandler: {
@@ -91,6 +114,14 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                 
         })
         task.resume()
+    }
+
+    func setTitle() {
+        if (currentMovieGroup == MovieGroup.BoxOffice) {
+            self.navigationItem.title = "Movies - Box Office"
+        } else if (currentMovieGroup == MovieGroup.TopDvds) {
+            self.navigationItem.title = "Movies - Top DVDs"
+        }
     }
 
     func onRefresh() {

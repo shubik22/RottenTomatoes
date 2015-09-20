@@ -2,11 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "iconmonstr-error-4-icon-48.png",
+      "filename" : "iconmonstr-video-5-icon-24.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "iconmonstr-video-5-icon-48.png",
       "scale" : "2x"
     },
     {
