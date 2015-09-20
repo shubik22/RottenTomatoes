@@ -13,10 +13,11 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     var movies: [NSDictionary]?
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var errorView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         let url = NSURL(string: "https://gist.githubusercontent.com/timothy1ee/d1778ca5b944ed974db0/raw/489d812c7ceeec0ac15ab77bf7c47849f2d1eb2b/gistfile1.json")
         let task =  NSURLSession.sharedSession().dataTaskWithRequest(
             NSURLRequest(URL: url!),
@@ -28,19 +29,27 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                             if let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSDictionary {
                                 self.movies = json["movies"] as? [NSDictionary]
                                 self.tableView.reloadData()
+                                
+                                self.errorView.hidden = true
+                                self.errorView.alpha = 0
                             }
                         } catch {
                             print("Error loading json....")
                         }
                     }
                     
-                } else if let error = error {
-                    print(error.description)
+                } else if let _ = error {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        self.errorView.hidden = false
+                        UIView.animateWithDuration(1.0, animations: { () -> Void in
+                            self.errorView.alpha = 0.99
+                        })
+                    }
                 }
                 
         })
         task.resume()
-        
+
         tableView.dataSource = self
         tableView.delegate = self
     }
@@ -69,7 +78,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
-    
+
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let cell = sender as! UITableViewCell
         let indexPath = tableView.indexPathForCell(cell)
