@@ -20,7 +20,14 @@ class MovieDetailsViewController: UIViewController {
         super.viewDidLoad()
         titleLabel.text = movie["title"] as? String
         synopsisLabel.text = movie["synopsis"] as? String
-        let posterUrl = NSURL(string: movie.valueForKeyPath("posters.detailed") as! String)!
+
+        var posterPath = movie.valueForKeyPath("posters.thumbnail") as! String
+        let range = posterPath.rangeOfString(".*cloudfront.net/", options: .RegularExpressionSearch)
+        if let range = range {
+            posterPath = posterPath.stringByReplacingCharactersInRange(range, withString: "https://content6.flixster.com/")
+        }
+
+        let posterUrl = NSURL(string: posterPath)!
         backgroundImageView.setImageWithURL(posterUrl)
     }
 
