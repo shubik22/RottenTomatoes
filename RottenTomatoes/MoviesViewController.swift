@@ -19,6 +19,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        JTProgressHUD.show()
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
         tableView.insertSubview(refreshControl, atIndex: 0)
@@ -27,6 +28,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         
         loadMovies()
     }
+    
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let movies = movies {
@@ -52,8 +54,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
-    
+
     func loadMovies() {
+        JTProgressHUD.show()
         let url = NSURL(string: "https://gist.githubusercontent.com/timothy1ee/d1778ca5b944ed974db0/raw/489d812c7ceeec0ac15ab77bf7c47849f2d1eb2b/gistfile1.json")
         let task =  NSURLSession.sharedSession().dataTaskWithRequest(
             NSURLRequest(URL: url!),
@@ -68,6 +71,8 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                                 
                                 self.errorView.hidden = true
                                 self.errorView.alpha = 0
+                                
+                                JTProgressHUD.hideWithTransition(JTProgressHUDTransition.Fade)
                             }
                         } catch {
                             print("Error loading json....")
@@ -80,6 +85,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                         UIView.animateWithDuration(1.0, animations: { () -> Void in
                             self.errorView.alpha = 0.99
                         })
+                        JTProgressHUD.hideWithTransition(JTProgressHUDTransition.Fade)
                     }
                 }
                 
