@@ -75,11 +75,13 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem image="iconmonstr-video-5-icon-128" width="143" style="plain" id="Afq-8J-81o">
+                                        <color key="tintColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="boxOfficeButtonClicked:" destination="BYZ-38-t0r" id="5gn-PU-R7U"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem image="iconmonstr-disc-14-icon-24" width="154" style="plain" id="Xwj-AV-gJY">
+                                        <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <action selector="dvdButtonClicked:" destination="BYZ-38-t0r" id="1eR-ck-b3I"/>
                                         </connections>
@@ -92,6 +94,8 @@
                     <tabBarItem key="tabBarItem" title="Item" id="bAT-AP-SID"/>
                     <navigationItem key="navigationItem" title="Movies" id="lk8-KY-mdg"/>
                     <connections>
+                        <outlet property="boxOfficeButtonItem" destination="Afq-8J-81o" id="KeK-5z-TnI"/>
+                        <outlet property="dvdButtonItem" destination="Xwj-AV-gJY" id="jNo-Zq-0lD"/>
                         <outlet property="errorView" destination="pjo-sm-b2w" id="5O8-iN-lyg"/>
                         <outlet property="tableView" destination="LAj-8X-iYW" id="OSI-0u-975"/>
                     </connections>

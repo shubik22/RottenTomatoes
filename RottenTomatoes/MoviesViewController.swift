@@ -21,16 +21,22 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     
     @IBAction func boxOfficeButtonClicked(sender: UIBarButtonItem) {
         currentMovieGroup = MovieGroup.BoxOffice
+        boxOfficeButtonItem.tintColor = UIColor.blueColor()
+        dvdButtonItem.tintColor = UIColor.blackColor()
         setTitle()
         loadMovies()
     }
 
     @IBAction func dvdButtonClicked(sender: AnyObject) {
         currentMovieGroup = MovieGroup.TopDvds
+        boxOfficeButtonItem.tintColor = UIColor.blackColor()
+        dvdButtonItem.tintColor = UIColor.blueColor()
         setTitle()
         loadMovies()
     }
 
+    @IBOutlet weak var boxOfficeButtonItem: UIBarButtonItem!
+    @IBOutlet weak var dvdButtonItem: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var errorView: UIView!
     
