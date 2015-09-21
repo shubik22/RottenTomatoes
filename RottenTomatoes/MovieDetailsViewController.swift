@@ -21,14 +21,19 @@ class MovieDetailsViewController: UIViewController {
         titleLabel.text = movie["title"] as? String
         synopsisLabel.text = movie["synopsis"] as? String
 
-        var posterPath = movie.valueForKeyPath("posters.thumbnail") as! String
-        let range = posterPath.rangeOfString(".*cloudfront.net/", options: .RegularExpressionSearch)
-        if let range = range {
-            posterPath = posterPath.stringByReplacingCharactersInRange(range, withString: "https://content6.flixster.com/")
-        }
+        var thumbnailPosterPath = movie.valueForKeyPath("posters.thumbnail") as! String
+        let range = thumbnailPosterPath.rangeOfString(".*cloudfront.net/", options: .RegularExpressionSearch)
+        let highQualityPosterPath = thumbnailPosterPath.stringByReplacingCharactersInRange(range!, withString: "https://content6.flixster.com/")
 
-        let posterUrl = NSURL(string: posterPath)!
-        backgroundImageView.setImageWithURL(posterUrl)
+        let thumbnailPosterUrl = NSURL(string: thumbnailPosterPath)!
+        let highQualityPosterUrl = NSURL(string: highQualityPosterPath)
+        
+        backgroundImageView.setImageWithURL(thumbnailPosterUrl)
+        backgroundImageView.setImageWithURLRequest(NSURLRequest(URL: highQualityPosterUrl!), placeholderImage: nil, success: { (request: NSURLRequest, response: NSHTTPURLResponse, image: UIImage) -> Void in
+            self.backgroundImageView.image = image
+            }) { (request: NSURLRequest, response: NSHTTPURLResponse, error: NSError) -> Void in
+            print("Error fetching image: \(error.description)")
+        }
     }
 
     override func didReceiveMemoryWarning() {
