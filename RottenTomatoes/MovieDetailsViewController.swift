@@ -28,7 +28,12 @@ class MovieDetailsViewController: UIViewController {
         let thumbnailPosterUrl = NSURL(string: thumbnailPosterPath)!
         let highQualityPosterUrl = NSURL(string: highQualityPosterPath)
         
+        backgroundImageView.alpha = 0.0
         backgroundImageView.setImageWithURL(thumbnailPosterUrl)
+        UIView.animateWithDuration(1.0, delay: 0.0, options: UIViewAnimationOptions.TransitionCrossDissolve, animations: { () -> Void in
+            self.backgroundImageView.alpha = 1.0
+            }, completion: nil)
+        
         backgroundImageView.setImageWithURLRequest(NSURLRequest(URL: highQualityPosterUrl!), placeholderImage: nil, success: { (request: NSURLRequest, response: NSHTTPURLResponse, image: UIImage) -> Void in
             self.backgroundImageView.image = image
             }) { (request: NSURLRequest, response: NSHTTPURLResponse, error: NSError) -> Void in
