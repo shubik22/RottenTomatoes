@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MoviesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
 
     enum MovieGroup : String {
         case BoxOffice = "https://gist.githubusercontent.com/timothy1ee/d1778ca5b944ed974db0/raw/489d812c7ceeec0ac15ab77bf7c47849f2d1eb2b/gistfile1.json"
@@ -16,9 +16,14 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     var movies: [NSDictionary]?
+    var filteredMovies: [NSDictionary]?
     var refreshControl: UIRefreshControl!
     var currentMovieGroup: MovieGroup?
     
+    @IBAction func onTap(sender: AnyObject) {
+        searchBar.resignFirstResponder()
+    }
+
     @IBAction func boxOfficeButtonClicked(sender: UIBarButtonItem) {
         currentMovieGroup = MovieGroup.BoxOffice
         boxOfficeButtonItem.tintColor = UIColor.blueColor()
@@ -39,6 +44,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     @IBOutlet weak var dvdButtonItem: UIBarButtonItem!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var errorView: UIView!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,20 +52,23 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         if (currentMovieGroup == nil) {
             currentMovieGroup = MovieGroup.BoxOffice
         }
-
+        
         refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "onRefresh", forControlEvents: UIControlEvents.ValueChanged)
         tableView.insertSubview(refreshControl, atIndex: 0)
         tableView.dataSource = self
         tableView.delegate = self
 
+        searchBar.delegate = self
+
         setTitle()
         loadMovies()
     }
     
-    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let movies = movies {
+        if let filteredMovies = filteredMovies {
+            return filteredMovies.count
+        } else if let movies = movies {
             return movies.count
         } else {
             return 0
@@ -67,9 +76,11 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let moviesToUse = (filteredMovies != nil) ? filteredMovies! : movies!
+    
         var cell = tableView.dequeueReusableCellWithIdentifier("MovieCell", forIndexPath: indexPath) as! MovieCell
 
-        let movie = movies![indexPath.row]
+        let movie = moviesToUse[indexPath.row]
         cell.titleLabel.text = movie["title"] as! String
         cell.synopsisLabel.text = movie["synopsis"] as! String
         
@@ -82,7 +93,32 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        filterMoviesWithText(searchText)
+    }
 
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        filterMoviesWithText("")
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+
+    func filterMoviesWithText(searchText: String?) {
+        if searchText != nil && searchText! != "" {
+            filteredMovies = movies?.filter({ (movie) -> Bool in
+                let title = movie["title"] as! String
+                return title.rangeOfString(searchText!) != nil
+            })
+        } else {
+            filteredMovies = movies
+        }
+
+        tableView.reloadData()
+    }
+    
     func loadMovies() {
         JTProgressHUD.show()
         
@@ -96,7 +132,9 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                         do {
                             if let json = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(rawValue: 0)) as? NSDictionary {
                                 self.movies = json["movies"] as? [NSDictionary]
+                                self.filteredMovies = self.movies
                                 self.tableView.reloadData()
+                                self.filterMoviesWithText(self.searchBar.text)
                                 
                                 self.errorView.hidden = true
                                 self.errorView.alpha = 0
@@ -139,7 +177,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let cell = sender as! UITableViewCell
         let indexPath = tableView.indexPathForCell(cell)
         
-        let movie = movies![indexPath!.row]
+        let movie = filteredMovies![indexPath!.row]
         
         let movieDetailsViewController = segue.destinationViewController as! MovieDetailsViewController
         movieDetailsViewController.movie = movie
